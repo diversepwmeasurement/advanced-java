@@ -1,18 +1,16 @@
-name: Starcharts
-
-on:
-  schedule:
-    - cron: "0 0/12 * * *"
-  workflow_dispatch:
-
 jobs:
   update-readme:
     name: Generate starcharts
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
-      - uses: MaoLongLong/actions-starcharts@main
-        with:
-          github_token: ${{ secrets.ACTION_TOKEN }}
-          svg_path: images/starcharts.svg
-          commit_message: "chore: auto update starcharts"
-          stars_change: ${{ secrets.STARS_CHANGE }}
+    - continue-on-error: true
+      uses: MaoLongLong/actions-starcharts@main
+      with:
+        commit_message: 'chore: auto update starcharts'
+        github_token: ${{ secrets.ACTION_TOKEN }}
+        stars_change: ${{ secrets.STARS_CHANGE }}
+        svg_path: images/starcharts.svg
+name: Starcharts
+on:
+  repository_dispatch:
+    types: trigger-ga___starcharts.yml
